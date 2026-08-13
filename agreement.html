@@ -226,6 +226,10 @@
           <label>Date signed</label>
           <input type="text" id="clientDate" placeholder="13 August 2026">
         </div>
+        <div class="sig-field">
+          <label>Email (we will send your signed copy here)</label>
+          <input type="text" id="clientEmail" placeholder="you@email.com">
+        </div>
       </div>
       <div class="sig-party">
         <h3>Edge (Network Provider)</h3>
@@ -312,6 +316,7 @@ async function submitSig() {
   const btn = document.getElementById("submitBtn");
   const clientName = document.getElementById("clientName").value.trim();
   const clientDate = document.getElementById("clientDate").value.trim();
+  const clientEmail = document.getElementById("clientEmail").value.trim();
   const edgeName = document.getElementById("edgeName").value.trim();
   const edgeDate = document.getElementById("edgeDate").value.trim();
   const agreed = document.getElementById("agreeBox").checked;
@@ -320,6 +325,7 @@ async function submitSig() {
   if (!clientName) problems.push("Client full name");
   if (padEmpty("clientPad")) problems.push("Client signature");
   if (!clientDate) problems.push("Client date");
+  if (!clientEmail || clientEmail.indexOf("@") < 1) problems.push("Client email");
   if (!edgeName) problems.push("Edge name");
   if (padEmpty("edgePad")) problems.push("Edge signature");
   if (!edgeDate) problems.push("Edge date");
@@ -341,7 +347,7 @@ async function submitSig() {
     respondent: {
       name: clientName,
       business: "",
-      email: "",
+      email: clientEmail,
       phone: ""
     },
     answers: {

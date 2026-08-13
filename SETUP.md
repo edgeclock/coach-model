@@ -18,7 +18,8 @@ Monica reads the sheet directly via Google Sheets access.
 
 1. Create a Google Sheet: https://sheets.new (name it, e.g. "Client1 Meeting Answers").
 2. In the sheet: **Extensions > Apps Script**. Delete default content, paste
-   `backend/Code.gs`, save.
+   `backend/Code.gs`, save. Set `SPREADSHEET_ID` and `EDGE_EMAIL` at the top of
+   the file.
 3. In `Code.gs`, replace `SPREADSHEET_ID` with your sheet's ID (the long string in the
    sheet URL between `/d/` and `/edit`). Save.
 4. **Deploy > New deployment > Web app**:
@@ -26,8 +27,22 @@ Monica reads the sheet directly via Google Sheets access.
    - Who has access: **Anyone** (this is critical, anonymous form posts get 401 without it)
    - Deploy, authorize, copy the `/exec` URL.
 5. Tell Monica the `/exec` URL (or send it in chat). She bakes it into
-   `meeting-questions.html` (the `FORM_ENDPOINT` constant) and re-pushes.
-   Submissions now land in the sheet as rows.
+   `meeting-questions.html` and `agreement.html` (the `FORM_ENDPOINT` constant)
+   and re-pushes. Submissions now land in the sheet as rows.
+
+## Signed agreement email flow
+
+The agreement page posts the signed agreement (with drawn signature images).
+The backend then:
+1. Appends the signed record to the sheet (same Answers tab).
+2. Builds a PDF of the agreement with both signatures embedded (via a temporary
+   Google Doc, deleted after export).
+3. Emails the PDF to the client (their email from the signature form) and to
+   `EDGE_EMAIL`.
+
+This version needs extra authorization scopes (MailApp, DocumentApp, DriveApp).
+When you re-deploy and authorize, accept all scopes. If the `/exec` URL changes
+after re-deploy, give Monica the new URL so she can update the forms.
 
 ### Reading the answers
 
