@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach Model: GBI Briefing Kit</title>
+<style>
+  :root {
+    --bg: #0f1117; --card: #1a1d27; --card2: #222634;
+    --ink: #e8eaf0; --muted: #9aa1b5;
+    --accent: #f59e0b; --accent2: #38bdf8; --line: #2c3040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.6; }
+  header {
+    padding: 60px 20px 40px; text-align: center;
+    background: radial-gradient(1200px 400px at 50% -10%, #2a2410 0%, var(--bg) 60%);
+    border-bottom: 1px solid var(--line);
+  }
+  .kicker { color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; margin-bottom: 12px; }
+  h1 { font-size: clamp(28px, 5vw, 42px); }
+  h1 span { color: var(--accent); }
+  header p { color: var(--muted); max-width: 660px; margin: 12px auto 0; font-size: 16px; }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 26px; text-decoration: none; color: var(--ink);
+    display: block; transition: transform .15s ease, border-color .15s ease;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .card .icon { font-size: 30px; margin-bottom: 12px; }
+  .card h2 { font-size: 19px; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 14.5px; }
+  .card .go { color: var(--accent); font-weight: 700; margin-top: 12px; display: inline-block; }
+  .note { background: var(--card2); border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; margin-top: 26px; font-size: 14px; color: var(--muted); }
+  .note strong { color: var(--ink); }
+  footer { text-align: center; padding: 26px 20px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Coach Model / Client #1, 13 Aug 2026</div>
+  <h1>GBI Briefing <span>Kit</span></h1>
+  <p>Two tools for this afternoon's meeting: understand the framework, then run the room.</p>
+</header>
+
+<main>
+  <div class="grid">
+    <a class="card" href="explainer.html">
+      <div class="icon">📖</div>
+      <h2>What is GBI and what it does to our business model</h2>
+      <p>The full walkthrough: what is inside the Guerrilla Business Intensive, how it shapes Edge's coach network, how it shapes Client #1's setup, and the legal lines.</p>
+      <span class="go">Read the explainer →</span>
+    </a>
+    <a class="card" href="meeting-questions.html">
+      <div class="icon">📋</div>
+      <h2>Meeting questions form</h2>
+      <p>40 questions, 7 blocks, about 75 minutes. MUST/NICE marked. Autosaves in browser and can submit answers to a Google Sheet via the Apps Script backend.</p>
+      <span class="go">Open the form →</span>
+    </a>
+  </div>
+  <div class="note">
+    <strong>How answer capture works:</strong> the form posts JSON to a Google Apps Script web app, which writes each submission as a row in a Google Sheet that Monica can read directly. Deploy steps are in <strong>SETUP.md</strong> in this repository. Until the endpoint is configured, answers still autosave in the browser and can be downloaded as JSON.
+  </div>
+</main>
+
+<footer>
+  Built by Monica for Edge, 13 Aug 2026. Research only, not legal advice.
+</footer>
+
+</body>
+</html>

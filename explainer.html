@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GBI Explained: What It Is and How It Shapes Your Business Model</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #222634;
+    --ink: #e8eaf0;
+    --muted: #9aa1b5;
+    --accent: #f59e0b;
+    --accent2: #38bdf8;
+    --good: #34d399;
+    --warn: #f87171;
+    --line: #2c3040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.65;
+  }
+  header {
+    padding: 56px 20px 40px;
+    text-align: center;
+    background: radial-gradient(1200px 400px at 50% -10%, #2a2410 0%, var(--bg) 60%);
+    border-bottom: 1px solid var(--line);
+  }
+  .kicker {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.2; margin-bottom: 14px; }
+  h1 span { color: var(--accent); }
+  header p { color: var(--muted); max-width: 720px; margin: 0 auto; font-size: 17px; }
+  main { max-width: 980px; margin: 0 auto; padding: 40px 20px 80px; }
+  section { margin-bottom: 44px; }
+  h2 {
+    font-size: clamp(20px, 3vw, 26px);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .num {
+    background: var(--accent);
+    color: #111;
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  h3 { color: var(--accent2); font-size: 17px; margin: 18px 0 8px; }
+  p { margin-bottom: 12px; color: #d5d9e3; }
+  .lead { font-size: 18px; color: var(--ink); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 14px 0;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .module {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .module .mnum {
+    display: inline-block;
+    background: var(--card2);
+    border: 1px solid var(--line);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .module h4 { font-size: 16px; margin-bottom: 6px; }
+  .module p { font-size: 14px; color: var(--muted); margin: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .tag.good { background: rgba(52,211,153,.15); color: var(--good); }
+  .tag.warn { background: rgba(248,113,113,.15); color: var(--warn); }
+  .tag.info { background: rgba(56,189,248,.15); color: var(--accent2); }
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--card);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .callout.blue { border-left-color: var(--accent2); }
+  .callout.red { border-left-color: var(--warn); }
+  .callout.green { border-left-color: var(--good); }
+  .callout p:last-child { margin: 0; }
+  .quote {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: center;
+    padding: 28px 10px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin: 26px 0;
+  }
+  .quote span { color: var(--accent); }
+  ul, ol { padding-left: 22px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; color: #d5d9e3; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .two { grid-template-columns: 1fr; } }
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    font-size: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #111;
+    font-weight: 700;
+    padding: 12px 26px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+  .btn:hover { filter: brightness(1.1); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Briefing for the Chairman, 13 Aug 2026</div>
+  <h1>What is GBI, and what does it do to <span>our</span> business model?</h1>
+  <p>You approved building both your own organization and Client #1's business on the Guerrilla Business Intensive framework. Here is what that actually means, in plain words, and exactly how it changes both businesses.</p>
+</header>
+
+<main>
+
+  <!-- 1. What is GBI -->
+  <section>
+    <h2><span class="num">1</span> What GBI actually is</h2>
+    <p class="lead">GBI stands for <strong>Guerrilla Business Intensive</strong>: a 4 to 5 day, high-energy live bootcamp created by <strong>T. Harv Eker</strong> (the author of <em>Secrets of the Millionaire Mind</em>) and run across Asia by his events company, <strong>Success Resources</strong>.</p>
+    <div class="card">
+      <p>It is not a lecture series. It is a working bootcamp where attendees build a real business plan over several days, present it in front of the room, and get it torn apart and rebuilt by a panel of wealthy entrepreneurs and by their peers. The slogan of the program is: <em>"stop wasting time with tactics that produce little or mediocre results and start creating wealth in any business you choose."</em></p>
+    </div>
+    <h3>The 4 signature mechanics (the parts worth stealing)</h3>
+    <div class="grid">
+      <div class="module">
+        <span class="mnum">Mechanic 1</span>
+        <h4>Hot seat</h4>
+        <p>One person presents their business plan to the room. An expert panel plus the audience dissects it live. Fast, public, unsparing. You either defend your plan or fix it on the spot.</p>
+      </div>
+      <div class="module">
+        <span class="mnum">Mechanic 2</span>
+        <h4>Peer pods</h4>
+        <p>Attendees group in threes or fours and walk each other through their plans, with the others analyzing and stress-testing. This is the workhorse mechanic: most people never reach the stage, the pod is where the plan gets real.</p>
+      </div>
+      <div class="module">
+        <span class="mnum">Mechanic 3</span>
+        <h4>Live plan makeover</h4>
+        <p>Your plan is not critiqued and left to die. It is reworked on the spot, and you leave with a rebuilt deliverable, not just notes.</p>
+      </div>
+      <div class="module">
+        <span class="mnum">Mechanic 4</span>
+        <h4>Timeboxed intensity</h4>
+        <p>4 to 5 straight days, long hours, deliberate pressure. Decisions get made because there is no time left to defer them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. What's inside -->
+  <section>
+    <h2><span class="num">2</span> What is inside the program (the 11 modules)</h2>
+    <p>Success Resources does not publish an official syllabus, so this is reconstructed from the program's marketing, its 24-CD home study set, and attendee reviews. Directionally accurate, and it is the pattern we borrow, not a document we copy.</p>
+    <div class="grid">
+      <div class="module"><span class="mnum">Module 1</span><h4>Million-dollar idea generation</h4><p>Rapid ideation drills, idea volume over precision, then filter. Learn to generate business ideas in minutes.</p></div>
+      <div class="module"><span class="mnum">Module 2</span><h4>Guerrilla financing</h4><p>Raising capital without banks. Finding and pitching investors, using other people's money, starting with minimal investment.</p></div>
+      <div class="module"><span class="mnum">Module 3</span><h4>Business plan creation and makeover</h4><p>Build a plan fast, then have it torn apart and rebuilt by faculty and peers until it holds.</p></div>
+      <div class="module"><span class="mnum">Module 4</span><h4>Maverick / guerrilla marketing</h4><p>Low-cost, high-leverage, unconventional customer acquisition. Marketing on a budget that actually works.</p></div>
+      <div class="module"><span class="mnum">Module 5</span><h4>Internet marketing</h4><p>Online lead generation, funnels, and selling services and products digitally.</p></div>
+      <div class="module"><span class="mnum">Module 6</span><h4>Negotiation and language</h4><p>Real-world negotiation tactics, persuasion language, deal structuring.</p></div>
+      <div class="module"><span class="mnum">Module 7</span><h4>Competitive research</h4><p>Systematically studying competitors before committing money to anything.</p></div>
+      <div class="module"><span class="mnum">Module 8</span><h4>Cheap top talent</h4><p>How to get top personnel for half the cost: leverage, contractors, performance pay.</p></div>
+      <div class="module"><span class="mnum">Module 9</span><h4>Systemization</h4><p>Building the business so it runs without the founder. The "automatic money machine."</p></div>
+      <div class="module"><span class="mnum">Module 10</span><h4>Sales strategy</h4><p>Building a repeatable sales machine, not relying on being a natural closer.</p></div>
+      <div class="module"><span class="mnum">Module 11</span><h4>Build to sell</h4><p>The signature thesis: a business is built to be sold, so you can build another and sell again. Design for exit from day one.</p></div>
+    </div>
+    <div class="callout blue">
+      <p><strong>The order matters:</strong> idea generation, then competitive research, then offer design with minimal capital, then a plan draft, then a hot-seat teardown, then the makeover, then marketing and sales, then financing only if needed, then systemization, then exit design. The plan is written early and deliberately criticized before any money is spent.</p>
+    </div>
+  </section>
+
+  <!-- 3. Effect on Edge's business -->
+  <section>
+    <h2><span class="num">3</span> What GBI does to YOUR business model</h2>
+    <p class="lead">You are not copying GBI as a product. You are borrowing its <strong>method</strong> and its <strong>discipline</strong> and applying them to your real business: the coach network.</p>
+    <div class="quote">"The coach owns the business. Edge owns the method." <span>That line is GBI thinking, applied.</span></div>
+    <div class="card">
+      <h3>Your frame, GBI style</h3>
+      <ul>
+        <li><strong>Your "business to sell" is the network itself.</strong> Every GBI module maps to a build step for the organization.</li>
+        <li><strong>Your product</strong> is business setup plus coaching. <strong>Your customers</strong> are professionals like Client #1.</li>
+        <li><strong>Your financing</strong> is bootstrap: no investors, no loans. Your working capital is the members' collected revenue, paid to you as the 10% royalty, monthly in arrears.</li>
+        <li><strong>Your systemization</strong> is the playbook: build the Business Setup Playbook once from Client #1, then every coach delivers the same playbook. You shift from delivery to certification.</li>
+        <li><strong>Your build-to-sell</strong> metric is verified recurring royalty per coach, not coach count. A network with signed agreements, a royalty ledger and verified revenue reporting is saleable at a multiple of the recurring royalty stream.</li>
+      </ul>
+    </div>
+    <h3>The two funnels (do not blend them)</h3>
+    <div class="two">
+      <div class="card">
+        <span class="tag info">Funnel A</span>
+        <h3 style="margin-top:10px">Client funnel</h3>
+        <p>Professionals who want a business set up. Sell the outcome: "a real business in 90 days."</p>
+      </div>
+      <div class="card">
+        <span class="tag info">Funnel B</span>
+        <h3 style="margin-top:10px">Coach funnel</h3>
+        <p>Proven operators who want to replicate. <strong>Invitation only, fed exclusively from the client funnel:</strong> client becomes mentee, mentee becomes coach-in-training. Nobody joins as a recruiter; they graduate as an operator. This is your best anti-pyramid defence AND your best selection filter.</p>
+      </div>
+    </div>
+    <div class="callout green">
+      <p><strong>Your future product, GBI style:</strong> compress the playbook into your own branded <strong>3-day Business Build Intensive</strong>. Day 1: idea, offer, validation. Day 2: plan build, peer pods, hot seats. Day 3: marketing, sales, funnel build, 90-day launch commitment. Run version 1 with Client #1 as an audience of one. Run version 2 with 6 to 10 people.</p>
+    </div>
+  </section>
+
+  <!-- 4. Effect on client's business -->
+  <section>
+    <h2><span class="num">4</span> What GBI does to CLIENT #1's business</h2>
+    <p class="lead">Client #1 (the accountant) gets the full GBI treatment: a fast build, a brutal review, a rebuild, and a 90-day launch commitment. Concretely:</p>
+    <div class="grid">
+      <div class="module">
+        <span class="mnum">GBI move 1</span>
+        <h4>Force a niche, today</h4>
+        <p>"Business solutions" is a category, not an offer. Pick one primary niche (US e-commerce sellers or US agencies recommended) plus one white-label B2B channel as a cashflow floor.</p>
+      </div>
+      <div class="module">
+        <span class="mnum">GBI move 2</span>
+        <h4>Plan draft in week 2</h4>
+        <p>10-page business plan: positioning, ideal client, pricing, delivery, capacity, marketing, financial model with the 10% fee line, risks, 90-day plan.</p>
+      </div>
+      <div class="module">
+        <span class="mnum">GBI move 3</span>
+        <h4>Hot seat in week 3</h4>
+        <p>You plus one outside expert tear apart her plan, site, pricing and deck in front of her. She rebuilds. Second hot seat in week 6, on real funnel data.</p>
+      </div>
+      <div class="module">
+        <span class="mnum">GBI move 4</span>
+        <h4>Launch by week 8</h4>
+        <p>Registration, site live, case studies, outbound launched week 4, first discovery calls week 5, first international client signed by week 7, first royalty computation week 8.</p>
+      </div>
+    </div>
+    <h3>Her pricing, GBI style (USD fixed monthly, never hourly)</h3>
+    <table>
+      <tr><th>Tier</th><th>Scope</th><th>Monthly USD</th></tr>
+      <tr><td>Catch-up / cleanup</td><td>One-time historical cleanup, chart of accounts rebuild</td><td>$500 to $2,500 project</td></tr>
+      <tr><td>Core bookkeeping</td><td>Monthly categorization, reconciliations, P&amp;L + balance sheet</td><td>$400 to $800</td></tr>
+      <tr><td>Bookkeeping + controller</td><td>Above plus AP/AR, monthly close package, review call</td><td>$900 to $1,800</td></tr>
+      <tr><td>Fractional CFO</td><td>Above plus forecasting, runway, KPI dashboard, lender pack</td><td>$2,000 to $4,000</td></tr>
+      <tr><td>White-label B2B</td><td>Per-client-file capacity for partner firms</td><td>$250 to $500 per file</td></tr>
+    </table>
+    <div class="callout">
+      <p><strong>The waterfall math you show her (this converts the fee from a tax into an asset):</strong> she is Generation 1, so the full 10% goes to you. When she later trains her own mentee, she keeps 5% of that mentee's revenue, you take 1.5% as grand-trainer, and the mentee keeps the rest. Show her this today.</p>
+    </div>
+  </section>
+
+  <!-- 5. The lines -->
+  <section>
+    <h2><span class="num">5</span> The legal lines (what we can and cannot touch)</h2>
+    <table>
+      <tr><th>Element</th><th>Status</th><th>Our position</th></tr>
+      <tr>
+        <td>The ideas, methods, systems (hot seats, plan makeovers, build to sell)</td>
+        <td><span class="tag good">FREE</span></td>
+        <td>Copyright protects expression, not methods. We can teach, adapt and charge for them.</td>
+      </tr>
+      <tr>
+        <td>Names: "Guerrilla Business Intensive", "Guerrilla Business School", "Quantum Leap"</td>
+        <td><span class="tag warn">TRADEMARKED</span></td>
+        <td>Do not use as our program name. No affiliation or endorsement claims, ever.</td>
+      </tr>
+      <tr>
+        <td>Manuals, workbooks, slides, CDs, scripts</td>
+        <td><span class="tag warn">COPYRIGHTED</span></td>
+        <td>No copying, no close paraphrasing. Rewrite in our own words with PH examples.</td>
+      </tr>
+      <tr>
+        <td>Nominative mention ("influenced by intensives like GBI")</td>
+        <td><span class="tag info">LOW RISK</span></td>
+        <td>OK, minimal and factual. Never on a logo, headline or sales hero.</td>
+      </tr>
+    </table>
+    <div class="callout red">
+      <p><strong>The one thing that could bite:</strong> if you or Client #1 personally attended a Success Resources event, the ticket terms may contain confidentiality, no-recording or reuse restrictions. Read the actual document before building a commercial derivative. And run an IPOPHL trademark search on our own program name before printing anything.</p>
+    </div>
+  </section>
+
+  <!-- 6. Pyramid guardrail -->
+  <section>
+    <h2><span class="num">6</span> Why this does not make us a pyramid (and the words we use)</h2>
+    <div class="card">
+      <p><strong>GBI's revenue engine is event tickets and an escalating program ladder, with aggressive room-selling.</strong> That is the part we deliberately do not import. Our engine is: setup engagement, then a perpetual 10% royalty that only exists when the member actually collects revenue from real outside clients.</p>
+      <ul>
+        <li><span class="tag good">NO</span> payment for recruiting anyone, ever.</li>
+        <li><span class="tag good">NO</span> entry fee (or nominal only). No inventory, no packages.</li>
+        <li><span class="tag good">ONLY</span> 2 generations deep, capped: trainer 5%, grand-trainer 1.5%, out of the single 10%.</li>
+        <li><span class="tag good">MEMBERS</span> own their own businesses and clients. A priced, contractual exit exists.</li>
+      </ul>
+      <h3>Vocabulary discipline (permanent)</h3>
+      <p>Never: downline, upline, recruit, levels, passive income, financial freedom, ground floor. Use: license, network, coach, trainer-of-record, override, generation, royalty, mentorship override.</p>
+    </div>
+    <div class="callout green">
+      <p><strong>Your memorized one-paragraph answer:</strong> "I don't get paid to recruit anyone, there is no fee for joining and no payment for enrolling. I get a royalty only when a member actually collects money from their own clients, for their own business, which they own outright. If they never collect, I never earn."</p>
+    </div>
+  </section>
+
+  <section style="text-align:center">
+    <p class="lead">Ready to run the meeting?</p>
+    <a class="btn" href="meeting-questions.html">Open the meeting questions form</a>
+  </section>
+
+</main>
+
+<footer>
+  Prepared by Monica for Edge, 13 Aug 2026. Sources: Seminar Event Review, Amazon (24-CD GBS set), Wikipedia (T. Harv Eker), attendee reviews. Research only, not legal advice.
+</footer>
+
+</body>
+</html>

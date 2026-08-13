@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client #1 Meeting Questions: Business Setup Intensive</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #222634;
+    --ink: #e8eaf0;
+    --muted: #9aa1b5;
+    --accent: #f59e0b;
+    --accent2: #38bdf8;
+    --good: #34d399;
+    --warn: #f87171;
+    --line: #2c3040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+  header {
+    padding: 40px 20px 28px;
+    text-align: center;
+    background: radial-gradient(1200px 400px at 50% -10%, #2a2410 0%, var(--bg) 60%);
+    border-bottom: 1px solid var(--line);
+  }
+  .kicker { color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 12px; margin-bottom: 10px; }
+  h1 { font-size: clamp(24px, 4vw, 36px); line-height: 1.2; }
+  header p { color: var(--muted); max-width: 640px; margin: 10px auto 0; font-size: 15px; }
+  main { max-width: 860px; margin: 0 auto; padding: 30px 20px 80px; }
+  .block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 26px;
+  }
+  .block-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+  .block h2 { font-size: 19px; }
+  .block .time { color: var(--muted); font-size: 13px; background: var(--card2); border: 1px solid var(--line); padding: 3px 10px; border-radius: 999px; }
+  .block .hint { color: var(--muted); font-size: 13.5px; margin-bottom: 18px; }
+  .q { margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-label { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .q-num { color: var(--accent); font-weight: 800; font-size: 14px; flex-shrink: 0; padding-top: 2px; }
+  .q-text { font-weight: 600; font-size: 15px; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px; vertical-align: middle; margin-left: 6px; }
+  .tag.must { background: rgba(248,113,113,.15); color: var(--warn); }
+  .tag.nice { background: rgba(56,189,248,.15); color: var(--accent2); }
+  .q-sub { color: var(--muted); font-size: 13px; margin: 4px 0 10px 24px; }
+  textarea {
+    width: 100%;
+    background: var(--card2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14.5px;
+    padding: 12px;
+    min-height: 74px;
+    resize: vertical;
+  }
+  textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  .radio-group { display: flex; flex-wrap: wrap; gap: 8px; margin-left: 24px; }
+  .radio-group label {
+    background: var(--card2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13.5px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .radio-group input { display: none; }
+  .radio-group input:checked + span { color: #111; }
+  .radio-group label:has(input:checked) { background: var(--accent); border-color: var(--accent); color: #111; font-weight: 700; }
+  .toolbar {
+    position: sticky;
+    bottom: 0;
+    background: rgba(15,17,23,.92);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--line);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .progress { color: var(--muted); font-size: 13px; }
+  .btn {
+    background: var(--accent);
+    color: #111;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 22px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .btn.secondary { background: var(--card2); color: var(--ink); border: 1px solid var(--line); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .status { color: var(--good); font-size: 13.5px; }
+  .status.err { color: var(--warn); }
+  details.config {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 26px;
+    font-size: 14px;
+  }
+  details.config summary { cursor: pointer; color: var(--accent2); font-weight: 600; }
+  details.config input {
+    width: 100%;
+    background: var(--card2);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-top: 10px;
+    font-family: inherit;
+    font-size: 13.5px;
+  }
+  footer { text-align: center; padding: 26px 20px; color: var(--muted); font-size: 13px; }
+  .summary-box {
+    background: var(--card2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px;
+    white-space: pre-wrap;
+    font-family: Consolas, monospace;
+    font-size: 12.5px;
+    max-height: 320px;
+    overflow: auto;
+    display: none;
+    margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Client #1 Meeting Agenda, 13 Aug 2026</div>
+  <h1>Business Setup Intensive: The Questions</h1>
+  <p>40 questions in 7 blocks, about 75 minutes. MUST items are the ones we cannot end the meeting without. Answers autosave in this browser; submit once at the end.</p>
+</header>
+
+<main>
+
+  <details class="config">
+    <summary>Form settings (where answers go)</summary>
+    <p style="color:var(--muted); font-size:13px; margin-top:8px">Answers POST as JSON to the Google Apps Script web app URL below. Deploy the included script (see SETUP.md in this repo), then paste the /exec URL here. Until then, answers still autosave locally and can be downloaded.</p>
+    <input id="endpoint" type="text" placeholder="https://script.google.com/macros/s/.../exec" value="">
+  </details>
+
+  <div id="blocks"></div>
+
+  <div class="toolbar">
+    <span class="progress" id="progress"></span>
+    <div style="display:flex; gap:10px; flex-wrap:wrap">
+      <button class="btn secondary" onclick="downloadJSON()">Download answers</button>
+      <button class="btn" onclick="submitAll()">Submit answers</button>
+    </div>
+  </div>
+  <div id="status" class="status"></div>
+  <div id="summary" class="summary-box"></div>
+
+</main>
+
+<footer>
+  Autosaves to this browser (localStorage) every few seconds. Monica can read submitted answers from the linked Google Sheet.
+</footer>
+
+<script>
+const MEETING_META = {
+  title: "Client #1 Business Setup Intensive",
+  date: "2026-08-13",
+  client: "Accountant / Bookkeeper / Fractional CFO (Business Solutions practice)",
+  interviewer: "Edge",
+  recorder: "Monica",
+  totalMinutes: 75
+};
+
+const BLOCKS = [
+  {
+    name: "Block 1: Current state",
+    time: "10 min",
+    hint: "Where she is today. This sets the royalty base and the proof we can publish.",
+    questions: [
+      { id: "b1q1", must: true, text: "How many active clients do you have right now, what does each pay per month, and in what currency?" },
+      { id: "b1q2", must: true, text: "Of those, how many are international vs Philippine?" },
+      { id: "b1q3", must: true, text: "What is your total monthly revenue today, and how much of your capacity is used?" },
+      { id: "b1q4", must: true, text: "Will your existing clients move into the new entity, or stay where they are?", sub: "This directly determines the 10% royalty base. Options: all revenue in scope, named legacy clients carved out for N months, or carved out permanently." },
+      { id: "b1q5", must: false, text: "What have you already tried to get US clients, and what exactly happened?", sub: "Upwork? Cold email? Referrals? Where did it die: no replies, or lost at proposal?" },
+      { id: "b1q6", must: false, text: "Do you have any testimonials, case studies, or numbers you are allowed to publish?" }
+    ]
+  },
+  {
+    name: "Block 2: Niche and offer decision",
+    time: "15 min",
+    hint: "The most valuable 15 minutes of the meeting. Force a niche and an outcome now; 'business solutions' is a category, not an offer.",
+    questions: [
+      { id: "b2q7", must: true, text: "Which industry do you most enjoy working with, and where do you already have results you can point to?" },
+      { id: "b2q8", must: true, text: "Pick one primary niche now: US e-commerce sellers, US agencies, US startups, US real-estate investors, or white-labelling for US/AU firms. Which, and why?", sub: "Recommendation: one primary (US e-commerce sellers or US agencies) plus one white-label B2B channel as a cashflow floor." },
+      { id: "b2q9", must: true, text: "Are you willing to be the face of the business publicly (LinkedIn posts, photo on the site, video calls with US clients)?", sub: "If no, the whole marketing plan changes." },
+      { id: "b2q10", must: true, text: "What are your realistic weekly hours available for delivery, and separately for marketing/outreach?" },
+      { id: "b2q11", must: false, text: "Fractional CFO work: do you want that as the destination offer, or is bookkeeping/controller the ceiling you want?" },
+      { id: "b2q12", must: false, text: "Any industries or client types you refuse to work with?" }
+    ]
+  },
+  {
+    name: "Block 3: Capacity, pricing, capital",
+    time: "10 min",
+    hint: "Sets the pipeline math and the pricing anchor. Watch for anchoring to PH rates; that is the most common failure point.",
+    questions: [
+      { id: "b3q13", must: true, text: "What is the minimum monthly income you need from this to keep going?" },
+      { id: "b3q14", must: true, text: "Are you comfortable quoting USD 400 to 1,800 per month fixed fees? Any resistance to that pricing?" },
+      { id: "b3q15", must: true, text: "How much cash can you put into setup? Confirm the PHP 35k to 75k range is workable." },
+      { id: "b3q16", must: false, text: "Do you have anyone who could do junior/data-entry work, or is it all you for now?" },
+      { id: "b3q17", must: false, text: "Do you already have a US-dollar receiving method (Wise, Payoneer, PayPal, USD bank account)?" }
+    ]
+  },
+  {
+    name: "Block 4: Entity and compliance",
+    time: "5 min",
+    hint: "Fast block. We need the registration path and name candidates to file this week.",
+    questions: [
+      { id: "b4q18", must: true, text: "Have you registered anything yet? Sole prop (DTI), OPC, or corporation, and has BIR registration started?" },
+      { id: "b4q19", must: true, text: "Preferred business name: do you have 2 to 3 candidates?" },
+      { id: "b4q20", must: false, text: "Are you a PRC-licensed CPA in good standing, and does your license impose any practice or advertising restrictions on this?" },
+      { id: "b4q21", must: false, text: "Do you have professional indemnity insurance, or should we scope it?" }
+    ]
+  },
+  {
+    name: "Block 5: Tools, access, next-week deliverables",
+    time: "10 min",
+    hint: "Account ownership is a trust and exit friction point. Everything goes in HER name; Edge gets admin access, never the reverse.",
+    questions: [
+      { id: "b5q22", must: true, text: "Confirm account ownership: all domains, systeme.io, email, social and client logins are registered in her name / her entity's name, with Edge given admin access, not the reverse." },
+      { id: "b5q23", must: true, text: "For next week's build: do you have a logo/brand or do we create one? Do you have a professional headshot?" },
+      { id: "b5q24", must: true, text: "Who writes the website copy: you draft and Edge edits, or Edge drafts and you approve? Agree the turnaround so next week is not blocked on you." },
+      { id: "b5q25", must: true, text: "Who is the pitch deck for: prospective clients, partner firms, or both (two versions)?" },
+      { id: "b5q26", must: false, text: "Are you on systeme.io already, or do we create the account today?" }
+    ]
+  },
+  {
+    name: "Block 6: Commercial terms",
+    time: "15 min",
+    hint: "DO NOT run out of time before this block. This is the agreement itself.",
+    questions: [
+      { id: "b6q27", must: true, text: "Walk through the model out loud and confirm she understands and accepts: 10% of Adjusted Collected Revenue, monthly, for the term. Not profit, collected cash. She owns her entity and clients; Edge owns no equity." },
+      { id: "b6q28", must: true, text: "Agree the exact definition of Adjusted Collected Revenue.", sub: "Suggested: all cash actually received by the entity for services and products in the month, LESS VAT/percentage tax actually remitted, documented pass-through costs reimbursed at cost, and refunds/chargebacks in the month. No deduction for salaries, contractors, rent, marketing or owner draws." },
+      { id: "b6q29", must: true, text: "Scope decision: does the 10% apply to all revenue of the new entity, or are named legacy clients carved out? Decide today, write it down." },
+      { id: "b6q30", must: true, text: "Who computes it, on what date, paid by when?", sub: "Proposal: she computes by the 10th from QuickBooks/Xero collections; Edge invoices; paid by the 15th; Edge gets read-only book access." },
+      { id: "b6q31", must: true, text: "Agreement term length and renewal: how many years is the initial term?" },
+      { id: "b6q32", must: true, text: "Walk through the exit terms and confirm she is comfortable before signing: 2.5x trailing-12-month royalties, 36-month non-replication of the model (her profession is unaffected), 24-month non-solicit." },
+      { id: "b6q33", must: true, text: "Decision authority: who decides pricing, which clients to accept, hiring, branding?", sub: "Recommendation: she decides everything about her business; Edge advises. Say it explicitly." },
+      { id: "b6q34", must: true, text: "Setup fee: confirm PHP 0 or a nominal amount, no fee for joining, no fee for recruiting, no requirement to recruit anyone, ever." },
+      { id: "b6q35", must: false, text: "Is she interested in the mentee/coach path? Show the 5% / 1.5% waterfall math." },
+      { id: "b6q36", must: false, text: "When can she sign? Who reviews the agreement on her side?" }
+    ]
+  },
+  {
+    name: "Block 7: GBI fit check",
+    time: "5 min",
+    hint: "Test whether the intensive/hot-seat mechanic fits her before we commit to it.",
+    questions: [
+      { id: "b7q37", must: true, text: "I am going to run your setup as an intensive: we build a plan fast, then I and one outside expert will publicly pull it apart, and you rebuild it. It is blunt. Are you up for that?", sub: "If she flinches, soften to a private 1:1 review. Better to know now." },
+      { id: "b7q38", must: false, text: "Have you attended MMI, GBI, or similar events? What worked or did not work for you?" },
+      { id: "b7q39", must: true, text: "Confirm the 8-week milestone calendar and her availability for the two hot-seat sessions in weeks 3 and 6." }
+    ]
+  },
+  {
+    name: "Close",
+    time: "5 min",
+    hint: "Read back the commitments before adjourning.",
+    questions: [
+      { id: "closeq40", must: true, text: "Recap: the three things she does before the next meeting, the four things Edge delivers by next week, and the date/time of the next session." }
+    ]
+  }
+];
+
+let answers = loadAnswers();
+
+function loadAnswers() {
+  try { return JSON.parse(localStorage.getItem("gbimeeting_answers") || "{}"); }
+  catch (e) { return {}; }
+}
+
+function saveAnswers() {
+  localStorage.setItem("gbimeeting_answers", JSON.stringify(answers));
+}
+
+function render() {
+  const root = document.getElementById("blocks");
+  root.innerHTML = "";
+  BLOCKS.forEach((block, bi) => {
+    const div = document.createElement("div");
+    div.className = "block";
+    let html = `<div class="block-head"><h2>${block.name}</h2><span class="time">${block.time}</span></div>`;
+    if (block.hint) html += `<p class="hint">${block.hint}</p>`;
+    block.questions.forEach((q, qi) => {
+      const val = answers[q.id] || "";
+      html += `
+        <div class="q" id="q-${q.id}">
+          <div class="q-label">
+            <span class="q-num">${bi + 1}.${qi + 1}</span>
+            <span class="q-text">${q.text} <span class="tag ${q.must ? "must" : "nice"}">${q.must ? "MUST" : "NICE"}</span></span>
+          </div>
+          ${q.sub ? `<p class="q-sub">${q.sub}</p>` : ""}
+          <textarea data-id="${q.id}" placeholder="Answer or notes...">${escapeHtml(val)}</textarea>
+        </div>`;
+    });
+    div.innerHTML = html;
+    root.appendChild(div);
+  });
+  const tas = root.querySelectorAll("textarea");
+  tas.forEach(ta => {
+    ta.addEventListener("input", () => {
+      answers[ta.dataset.id] = ta.value;
+      saveAnswers();
+      updateProgress();
+    });
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = BLOCKS.reduce((n, b) => n + b.questions.length, 0);
+  const answered = Object.values(answers).filter(v => v && v.trim().length > 0).length;
+  const pct = Math.round((answered / total) * 100);
+  document.getElementById("progress").textContent = `${answered}/${total} answered (${pct}%)`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function collectPayload() {
+  const payload = {
+    meta: MEETING_META,
+    submittedAt: new Date().toISOString(),
+    answers: {}
+  };
+  BLOCKS.forEach(block => {
+    block.questions.forEach(q => {
+      payload.answers[q.id] = {
+        block: block.name,
+        must: q.must,
+        question: q.text,
+        answer: (answers[q.id] || "").trim()
+      };
+    });
+  });
+  return payload;
+}
+
+function buildSummaryText(payload) {
+  const lines = [];
+  lines.push(`${payload.meta.title} | ${payload.meta.date}`);
+  lines.push(`Client: ${payload.meta.client}`);
+  lines.push(`Submitted: ${payload.submittedAt}`);
+  lines.push("=".repeat(60));
+  BLOCKS.forEach(block => {
+    lines.push("");
+    lines.push(`## ${block.name} (${block.time})`);
+    block.questions.forEach(q => {
+      const a = (answers[q.id] || "").trim();
+      lines.push(`Q ${q.id}: ${q.text}`);
+      lines.push(`A: ${a || "(no answer)"}`);
+    });
+  });
+  return lines.join("\n");
+}
+
+async function submitAll() {
+  const status = document.getElementById("status");
+  const payload = collectPayload();
+  const summary = buildSummaryText(payload);
+  const endpoint = document.getElementById("endpoint").value.trim();
+
+  const box = document.getElementById("summary");
+  box.style.display = "block";
+  box.textContent = summary;
+
+  if (endpoint) {
+    try {
+      status.textContent = "Submitting...";
+      status.className = "status";
+      const res = await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      status.textContent = "Submitted. Answers were sent to the linked Google Sheet.";
+      status.className = "status";
+    } catch (e) {
+      status.textContent = "Submit failed: " + e.message + ". Your answers are still saved locally; use Download to keep a copy.";
+      status.className = "status err";
+    }
+  } else {
+    status.textContent = "No endpoint configured. Answers are saved in this browser and shown above. Set the Apps Script URL in Form settings to send them to Google Sheets.";
+    status.className = "status";
+  }
+}
+
+function downloadJSON() {
+  const payload = collectPayload();
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `client1-meeting-answers-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+}
+
+// restore endpoint from localStorage
+(function () {
+  const ep = localStorage.getItem("gbimeeting_endpoint");
+  if (ep) document.getElementById("endpoint").value = ep;
+  document.getElementById("endpoint").addEventListener("input", () => {
+    localStorage.setItem("gbimeeting_endpoint", document.getElementById("endpoint").value);
+  });
+})();
+
+render();
+</script>
+
+</body>
+</html>
