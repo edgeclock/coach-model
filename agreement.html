@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Fee Agreement - Sign</title>
+<style>
+  :root {
+    --ink: #1c2430;
+    --muted: #5a6778;
+    --line: #d8dde5;
+    --accent: #b45309;
+    --accent2: #1d4ed8;
+    --bg: #eef1f5;
+    --paper: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.55;
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #10141c;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar .brand { color: #f59e0b; font-family: "Segoe UI", sans-serif; font-weight: 700; font-size: 14px; }
+  .toolbar .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font-family: "Segoe UI", sans-serif;
+    background: #f59e0b;
+    color: #111;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .btn.secondary { background: #2a3040; color: #e8eaf0; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .status { font-family: "Segoe UI", sans-serif; color: #34d399; font-size: 13px; }
+  .status.err { color: #f87171; }
+
+  .paper {
+    max-width: 820px;
+    margin: 28px auto;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 56px 64px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  }
+  @media (max-width: 700px) { .paper { padding: 32px 24px; margin: 14px auto; } }
+
+  .doc-head { text-align: center; border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 26px; }
+  .doc-head h1 { font-size: 22px; letter-spacing: .5px; }
+  .doc-head .sub { font-size: 13px; color: var(--muted); margin-top: 6px; font-family: "Segoe UI", sans-serif; }
+  .doc-head .meta { font-size: 12.5px; color: var(--muted); margin-top: 10px; font-family: "Segoe UI", sans-serif; }
+
+  h2 { font-size: 14px; margin: 20px 0 6px; font-variant: small-caps; letter-spacing: .5px; color: #333; }
+  p { font-size: 14.5px; margin-bottom: 10px; text-align: justify; }
+  .clause-num { font-weight: 700; }
+
+  .sig-block { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 22px; }
+  @media (max-width: 700px) { .sig-row { grid-template-columns: 1fr; } }
+  .sig-party h3 { font-size: 14px; font-family: "Segoe UI", sans-serif; margin-bottom: 4px; }
+  .sig-party .role { font-size: 12px; color: var(--muted); font-family: "Segoe UI", sans-serif; margin-bottom: 12px; }
+  .sig-field { margin-bottom: 14px; }
+  .sig-field label { display: block; font-size: 12px; color: var(--muted); font-family: "Segoe UI", sans-serif; margin-bottom: 4px; }
+  .sig-field input[type=text] {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid #9aa1b5;
+    padding: 6px 2px;
+    font-size: 15px;
+    font-family: Georgia, serif;
+    background: transparent;
+  }
+  .sig-field input[type=text]:focus { outline: none; border-bottom-color: var(--accent2); }
+  canvas.sigpad {
+    width: 100%;
+    height: 120px;
+    border: 1.5px dashed #9aa1b5;
+    border-radius: 6px;
+    background: #fafbfc;
+    touch-action: none;
+    cursor: crosshair;
+  }
+  .sigpad-row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+  .sigpad-row .hint { font-size: 12px; color: var(--muted); font-family: "Segoe UI", sans-serif; flex: 1; }
+  .clear-btn {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 12px;
+    background: none;
+    border: 1px solid #9aa1b5;
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+  }
+
+  .agree-box {
+    margin-top: 26px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 18px;
+    background: #f8fafc;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .agree-box input { margin-top: 3px; width: 17px; height: 17px; }
+  .agree-box label { cursor: pointer; color: var(--ink); }
+
+  .submit-row { margin-top: 24px; text-align: center; }
+  .submit-row .btn { padding: 13px 34px; font-size: 16px; }
+
+  .fineprint { margin-top: 30px; font-size: 11.5px; color: var(--muted); font-family: "Segoe UI", sans-serif; text-align: center; border-top: 1px solid var(--line); padding-top: 16px; }
+
+  @media print {
+    .toolbar { display: none; }
+    body { background: #fff; }
+    .paper { box-shadow: none; border: none; margin: 0; max-width: 100%; padding: 24px 8px; }
+    canvas.sigpad { border: 1.5px solid #9aa1b5; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="brand">Monica &bull; Legal Drafting for Edge</span>
+  <div class="btns">
+    <button class="btn secondary" onclick="window.print()">Print / Save PDF</button>
+    <button class="btn" onclick="submitSig()" id="submitBtn">Sign and Submit</button>
+  </div>
+  <span class="status" id="status"></span>
+</div>
+
+<div class="paper">
+
+  <div class="doc-head">
+    <h1>NETWORK FEE AGREEMENT</h1>
+    <div class="sub">One-page MVP agreement between Edge (Network Provider) and Client (Accountant / Business Solutions practice)</div>
+    <div class="meta">Draft for review and signature &bull; 13 August 2026 &bull; Philippine law governs &bull; JS draft v1</div>
+  </div>
+
+  <h2>1. Parties</h2>
+  <p><span class="clause-num">Network Provider:</span> Earl Jones Saldajeno ("Edge"), Philippines. <span class="clause-num">Client:</span> the accountant, bookkeeper and fractional CFO and the business entity he owns and operates ("Client"). Client owns his own business, entity, and client relationships.</p>
+
+  <h2>2. Purpose</h2>
+  <p>Edge assists Client to establish and grow a "business solutions" practice (accounting, bookkeeping, fractional CFO services) targeting clients in the US, UK, Canada, and Australia. Edge owns no equity in Client's business. Edge provides: business setup support, coaching, website, deck and marketing build, lead generation support, and a license to Edge's brand and method.</p>
+
+  <h2>3. Network Fee</h2>
+  <p>Client pays Edge <strong>10% of Adjusted Collected Revenue</strong>, monthly, during the term of this Agreement.</p>
+
+  <h2>4. Adjusted Collected Revenue</h2>
+  <p>Cash actually collected from covered clients in a calendar month, minus: (a) VAT or percentage tax actually remitted to the BIR on that revenue, (b) documented pass-through costs reimbursed to Client at cost (no markup), and (c) refunds and chargebacks issued in the same month. No deduction for salaries, rent, marketing, software, owner draws, or any other expense. Revenue is measured on cash collected, not profit, billings, or accruals.</p>
+
+  <h2>5. Covered Revenue</h2>
+  <p>All revenue of Client's practice entity, unless a legacy-client carve-out is agreed in writing before signing (attach list). Carve-out clients' revenue is excluded from Adjusted Collected Revenue; Edge still gets 10% of all new clients sourced after the start date.</p>
+
+  <h2>6. Computation and Payment</h2>
+  <p>Client computes Adjusted Collected Revenue and reports it to Edge by the 10th of each month. Edge issues an invoice. Client pays by the 15th of the same month. Late payment: simple interest at 1% per month.</p>
+
+  <h2>7. Verification</h2>
+  <p>Client grants Edge read-only access to the practice's books and records (accounting software and bank statements) sufficient to verify Adjusted Collected Revenue. Client keeps records for at least 3 years.</p>
+
+  <h2>8. Term and Renewal</h2>
+  <p>12 months from the start date. Auto-renews for successive 12-month periods unless either party gives 30 days written notice before renewal.</p>
+
+  <h2>9. Exit</h2>
+  <p>On termination, Client keeps his business, entity, and clients. Edge is entitled to a short collection tail: the Network Fee continues on revenue collected within 60 days after termination. Client may not copy, replicate, or sublicense Edge's method, brand, or materials for 36 months after termination. For 24 months after termination, Client may not solicit clients sourced through Edge's network or Edge's network personnel.</p>
+
+  <h2>10. Relationship</h2>
+  <p>This Agreement creates no partnership, employment, agency, or joint venture. Client is an independent business owner. Neither party may bind the other.</p>
+
+  <h2>11. Law and Venue</h2>
+  <p>Philippine law governs. Exclusive venue: the courts of the place where the Agreement is signed.</p>
+
+  <h2>12. Severability</h2>
+  <p>If any provision is unenforceable, the rest remains in full force.</p>
+
+  <h2>13. Signatures</h2>
+  <p>Both parties sign below. Client signs for himself and for the entity.</p>
+
+  <div class="sig-block">
+    <div class="sig-row">
+      <div class="sig-party">
+        <h3>Client</h3>
+        <div class="role">Signs for himself and for the entity</div>
+        <div class="sig-field">
+          <label>Full legal name</label>
+          <input type="text" id="clientName" placeholder="Type full name">
+        </div>
+        <div class="sig-field">
+          <label>Business entity name</label>
+          <input type="text" id="entityName" placeholder="Type entity name">
+        </div>
+        <div class="sig-field">
+          <label>Signature (draw in the box)</label>
+          <canvas class="sigpad" id="clientPad"></canvas>
+          <div class="sigpad-row">
+            <span class="hint">Use mouse or finger to sign</span>
+            <button class="clear-btn" onclick="clearPad('clientPad')">Clear</button>
+          </div>
+        </div>
+        <div class="sig-field">
+          <label>Date signed</label>
+          <input type="text" id="clientDate" placeholder="13 August 2026">
+        </div>
+      </div>
+      <div class="sig-party">
+        <h3>Edge (Network Provider)</h3>
+        <div class="role">Earl Jones Saldajeno</div>
+        <div class="sig-field">
+          <label>Full legal name</label>
+          <input type="text" id="edgeName" placeholder="Earl Jones Saldajeno">
+        </div>
+        <div class="sig-field">
+          <label>Signature (draw in the box)</label>
+          <canvas class="sigpad" id="edgePad"></canvas>
+          <div class="sigpad-row">
+            <span class="hint">Use mouse or finger to sign</span>
+            <button class="clear-btn" onclick="clearPad('edgePad')">Clear</button>
+          </div>
+        </div>
+        <div class="sig-field">
+          <label>Date signed</label>
+          <input type="text" id="edgeDate" placeholder="13 August 2026">
+        </div>
+      </div>
+    </div>
+
+    <div class="agree-box">
+      <input type="checkbox" id="agreeBox">
+      <label for="agreeBox">I have read this Agreement, I understand it, and I agree to its terms. I sign for myself and for the business entity named above. I understand this is a binding revenue-sharing agreement and that Edge owns no equity in my business.</label>
+    </div>
+
+    <div class="submit-row">
+      <button class="btn" onclick="submitSig()">Sign and Submit Agreement</button>
+    </div>
+  </div>
+
+  <div class="fineprint">
+    Draft v1 by JS (Legal) for Edge, 13 Aug 2026. MVP one-pager; full structuring (OPC, IP, detailed exit) follows post-GBI. Atty. Vera review recommended before execution. Nothing on this page is legal advice to the Client; the Client is encouraged to have the agreement reviewed independently.
+  </div>
+
+</div>
+
+<script>
+const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbzXz0jwQsfulczWTvgMyps47mELp-NrECvi5ItW6Mu2KlBx3icBScALxndpe_YynUim/exec";
+
+const pads = {};
+function initPad(id) {
+  const c = document.getElementById(id);
+  const ctx = c.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const rect = c.getBoundingClientRect();
+  c.width = rect.width * dpr;
+  c.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = "#1c2430";
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  pads[id] = { c, ctx, drawing: false, last: null };
+  c.addEventListener("pointerdown", e => { e.preventDefault(); pads[id].drawing = true; pads[id].last = pos(e, c); c.setPointerCapture(e.pointerId); });
+  c.addEventListener("pointermove", e => {
+    if (!pads[id].drawing) return;
+    const p = pos(e, c);
+    ctx.beginPath();
+    ctx.moveTo(pads[id].last.x, pads[id].last.y);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    pads[id].last = p;
+  });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(ev => c.addEventListener(ev, () => { pads[id].drawing = false; }));
+}
+function pos(e, c) {
+  const r = c.getBoundingClientRect();
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+function clearPad(id) {
+  const { c, ctx } = pads[id];
+  ctx.clearRect(0, 0, c.width, c.height);
+}
+function padEmpty(id) {
+  const { c, ctx } = pads[id];
+  const data = ctx.getImageData(0, 0, c.width, c.height).data;
+  for (let i = 3; i < data.length; i += 4) if (data[i] !== 0) return false;
+  return true;
+}
+function padDataURL(id) {
+  return pads[id].c.toDataURL("image/png");
+}
+
+async function submitSig() {
+  const status = document.getElementById("status");
+  const btn = document.getElementById("submitBtn");
+  const clientName = document.getElementById("clientName").value.trim();
+  const entityName = document.getElementById("entityName").value.trim();
+  const clientDate = document.getElementById("clientDate").value.trim();
+  const edgeName = document.getElementById("edgeName").value.trim();
+  const edgeDate = document.getElementById("edgeDate").value.trim();
+  const agreed = document.getElementById("agreeBox").checked;
+
+  const problems = [];
+  if (!clientName) problems.push("Client full name");
+  if (!entityName) problems.push("Entity name");
+  if (padEmpty("clientPad")) problems.push("Client signature");
+  if (!clientDate) problems.push("Client date");
+  if (!edgeName) problems.push("Edge name");
+  if (padEmpty("edgePad")) problems.push("Edge signature");
+  if (!edgeDate) problems.push("Edge date");
+  if (!agreed) problems.push("Agreement checkbox");
+
+  if (problems.length) {
+    status.className = "status err";
+    status.textContent = "Missing: " + problems.join(", ");
+    return;
+  }
+
+  btn.disabled = true;
+  status.className = "status";
+  status.textContent = "Submitting signed agreement...";
+
+  const payload = {
+    meta: { title: "NETWORK FEE AGREEMENT - SIGNED", date: "2026-08-13", client: entityName },
+    submittedAt: new Date().toISOString(),
+    respondent: {
+      name: clientName,
+      business: entityName,
+      email: "",
+      phone: ""
+    },
+    answers: {
+      sig_client_name: { block: "Signature", must: true, question: "Client full legal name", answer: clientName },
+      sig_entity_name: { block: "Signature", must: true, question: "Business entity name", answer: entityName },
+      sig_client_date: { block: "Signature", must: true, question: "Client date signed", answer: clientDate },
+      sig_edge_name: { block: "Signature", must: true, question: "Edge full legal name", answer: edgeName },
+      sig_edge_date: { block: "Signature", must: true, question: "Edge date signed", answer: edgeDate },
+      sig_agreed: { block: "Signature", must: true, question: "Agreed to terms (checkbox)", answer: agreed ? "YES" : "NO" },
+      sig_client_image: { block: "Signature", must: true, question: "Client signature image", answer: padDataURL("clientPad") },
+      sig_edge_image: { block: "Signature", must: true, question: "Edge signature image", answer: padDataURL("edgePad") }
+    }
+  };
+
+  try {
+    await fetch(FORM_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+    status.className = "status";
+    status.textContent = "Signed and submitted. A copy was saved; you can also Print / Save PDF for your records.";
+    btn.disabled = false;
+  } catch (e) {
+    status.className = "status err";
+    status.textContent = "Submit failed: " + e.message + ". Use Print / Save PDF as your record, and tell Monica.";
+    btn.disabled = false;
+  }
+}
+
+initPad("clientPad");
+initPad("edgePad");
+</script>
+
+</body>
+</html>
