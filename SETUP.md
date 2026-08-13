@@ -23,21 +23,23 @@ Monica reads the sheet directly via Google Sheets access.
    sheet URL between `/d/` and `/edit`). Save.
 4. **Deploy > New deployment > Web app**:
    - Execute as: Me
-   - Who has access: Anyone
+   - Who has access: **Anyone** (this is critical, anonymous form posts get 401 without it)
    - Deploy, authorize, copy the `/exec` URL.
-5. Open `meeting-questions.html`, expand **Form settings**, paste the `/exec` URL,
-   save. Submissions now land in the sheet as rows.
+5. Tell Monica the `/exec` URL (or send it in chat). She bakes it into
+   `meeting-questions.html` (the `FORM_ENDPOINT` constant) and re-pushes.
+   Submissions now land in the sheet as rows.
 
 ### Reading the answers
 
-The sheet gets one row per submission: timestamp, meeting title, client, one column
-per question id, plus a `full_payload_json` column. Monica queries this sheet to
-extract answers after the meeting.
+The sheet gets one row per submission: timestamp, meeting title, client,
+respondent name/business/email/phone, one column per question id, plus a
+`full_payload_json` column. Monica queries this sheet to extract answers
+after the meeting.
 
 ## Notes
 
-- No backend configured? The form still autosaves in the browser and can download
-  answers as JSON.
+- No backend reachable? The form still autosaves in the browser and can download
+  answers as JSON (Download button).
 - The form uses `mode: "no-cors"` for the POST, so no CORS setup is needed on the
   Apps Script side. Use `text/plain` content type (Apps Script reads `postData.contents`
   either way).

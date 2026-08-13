@@ -67,6 +67,21 @@
     resize: vertical;
   }
   textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  .resp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px; }
+  @media (max-width: 600px) { .resp-grid { grid-template-columns: 1fr; } }
+  .resp-grid label { display: block; font-size: 13.5px; color: var(--muted); }
+  .resp-grid input {
+    width: 100%;
+    background: var(--card2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14.5px;
+    padding: 11px 12px;
+    margin-top: 6px;
+  }
+  .resp-grid input:focus { outline: 2px solid var(--accent); border-color: transparent; }
   .radio-group { display: flex; flex-wrap: wrap; gap: 8px; margin-left: 24px; }
   .radio-group label {
     background: var(--card2);
@@ -154,11 +169,24 @@
 
 <main>
 
-  <details class="config">
-    <summary>Form settings (where answers go)</summary>
-    <p style="color:var(--muted); font-size:13px; margin-top:8px">Answers POST as JSON to the Google Apps Script web app URL below. Deploy the included script (see SETUP.md in this repo), then paste the /exec URL here. Until then, answers still autosave locally and can be downloaded.</p>
-    <input id="endpoint" type="text" placeholder="https://script.google.com/macros/s/.../exec" value="">
-  </details>
+  <div class="block" id="respondent-block">
+    <div class="block-head"><h2>Your details</h2><span class="time">2 min</span></div>
+    <p class="hint">So we can tie these answers to you. Autosaves as you type.</p>
+    <div class="resp-grid">
+      <label>Full name
+        <input id="resp-name" type="text" placeholder="e.g. Maria Santos">
+      </label>
+      <label>Business name (if any)
+        <input id="resp-business" type="text" placeholder="e.g. Santos & Co. Bookkeeping">
+      </label>
+      <label>Email
+        <input id="resp-email" type="email" placeholder="you@email.com">
+      </label>
+      <label>Phone / WhatsApp
+        <input id="resp-phone" type="text" placeholder="+63...">
+      </label>
+    </div>
+  </div>
 
   <div id="blocks"></div>
 
@@ -175,10 +203,12 @@
 </main>
 
 <footer>
-  Autosaves to this browser (localStorage) every few seconds. Monica can read submitted answers from the linked Google Sheet.
+  Autosaves to this browser (localStorage). Submissions are sent to the linked Google Sheet; Monica can read them directly.
 </footer>
 
 <script>
+const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbzXz0jwQsfulczWTvgMyps47mELp-NrECvi5ItW6Mu2KlBx3icBScALxndpe_YynUim/exec";
+
 const MEETING_META = {
   title: "Client #1 Business Setup Intensive",
   date: "2026-08-13",
@@ -288,6 +318,16 @@ const BLOCKS = [
 ];
 
 let answers = loadAnswers();
+let respondent = loadRespondent();
+
+function loadRespondent() {
+  try { return JSON.parse(localStorage.getItem("gbimeeting_respondent") || "{}"); }
+  catch (e) { return {}; }
+}
+
+function saveRespondent() {
+  localStorage.setItem("gbimeeting_respondent", JSON.stringify(respondent));
+}
 
 function loadAnswers() {
   try { return JSON.parse(localStorage.getItem("gbimeeting_answers") || "{}"); }
@@ -333,8 +373,10 @@ function render() {
 }
 
 function updateProgress() {
-  const total = BLOCKS.reduce((n, b) => n + b.questions.length, 0);
-  const answered = Object.values(answers).filter(v => v && v.trim().length > 0).length;
+  const total = BLOCKS.reduce((n, b) => n + b.questions.length, 0) + 4;
+  const qAnswered = Object.values(answers).filter(v => v && v.trim().length > 0).length;
+  const rAnswered = Object.values(respondent).filter(v => v && v.trim().length > 0).length;
+  const answered = qAnswered + rAnswered;
   const pct = Math.round((answered / total) * 100);
   document.getElementById("progress").textContent = `${answered}/${total} answered (${pct}%)`;
 }
@@ -347,6 +389,12 @@ function collectPayload() {
   const payload = {
     meta: MEETING_META,
     submittedAt: new Date().toISOString(),
+    respondent: {
+      name: (respondent.name || "").trim(),
+      business: (respondent.business || "").trim(),
+      email: (respondent.email || "").trim(),
+      phone: (respondent.phone || "").trim()
+    },
     answers: {}
   };
   BLOCKS.forEach(block => {
@@ -366,6 +414,7 @@ function buildSummaryText(payload) {
   const lines = [];
   lines.push(`${payload.meta.title} | ${payload.meta.date}`);
   lines.push(`Client: ${payload.meta.client}`);
+  lines.push(`Respondent: ${payload.respondent.name || "(not provided)"} | ${payload.respondent.business || ""} | ${payload.respondent.email || ""} | ${payload.respondent.phone || ""}`);
   lines.push(`Submitted: ${payload.submittedAt}`);
   lines.push("=".repeat(60));
   BLOCKS.forEach(block => {
@@ -384,7 +433,7 @@ async function submitAll() {
   const status = document.getElementById("status");
   const payload = collectPayload();
   const summary = buildSummaryText(payload);
-  const endpoint = document.getElementById("endpoint").value.trim();
+  const endpoint = FORM_ENDPOINT;
 
   const box = document.getElementById("summary");
   box.style.display = "block";
@@ -407,7 +456,7 @@ async function submitAll() {
       status.className = "status err";
     }
   } else {
-    status.textContent = "No endpoint configured. Answers are saved in this browser and shown above. Set the Apps Script URL in Form settings to send them to Google Sheets.";
+    status.textContent = "No endpoint configured. Answers are saved in this browser and shown above. Tell Monica to wire the backend URL if submissions should go to Google Sheets.";
     status.className = "status";
   }
 }
@@ -421,14 +470,16 @@ function downloadJSON() {
   a.click();
 }
 
-// restore endpoint from localStorage
-(function () {
-  const ep = localStorage.getItem("gbimeeting_endpoint");
-  if (ep) document.getElementById("endpoint").value = ep;
-  document.getElementById("endpoint").addEventListener("input", () => {
-    localStorage.setItem("gbimeeting_endpoint", document.getElementById("endpoint").value);
+// respondent inputs
+["name", "business", "email", "phone"].forEach(key => {
+  const el = document.getElementById("resp-" + key);
+  el.value = respondent[key] || "";
+  el.addEventListener("input", () => {
+    respondent[key] = el.value;
+    saveRespondent();
+    updateProgress();
   });
-})();
+});
 
 render();
 </script>

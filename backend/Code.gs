@@ -19,11 +19,14 @@
  *    /exec URL, save. Done.
  *
  * Each submission becomes one row: Timestamp, Meta title, Client,
- * then one column per question id (b1q1...closeq40), then a JSON
- * column with the full payload.
+ * Respondent name, business, email, phone, then one column per question
+ * id (b1q1...closeq40), then a JSON column with the full payload.
  */
 
 const SPREADSHEET_ID = "REPLACE_WITH_YOUR_SPREADSHEET_ID";
+
+// Respondent detail fields, in column order.
+const RESPONDENT_FIELDS = ["name", "business", "email", "phone"];
 
 // Question ids in display order, used to build stable columns.
 const QUESTION_IDS = [
@@ -41,11 +44,14 @@ function doPost(e) {
   try {
     const payload = JSON.parse(e.postData.contents);
     const answers = payload.answers || {};
+    const respondent = payload.respondent || {};
     const sheet = getSheet_();
 
     // Ensure headers exist on first run.
     if (sheet.getLastRow() === 0) {
-      const headers = ["timestamp", "meeting_title", "client", ...QUESTION_IDS, "full_payload_json"];
+      const headers = ["timestamp", "meeting_title", "client",
+        ...RESPONDENT_FIELDS.map(f => "respondent_" + f),
+        ...QUESTION_IDS, "full_payload_json"];
       sheet.appendRow(headers);
     }
 
@@ -53,6 +59,7 @@ function doPost(e) {
       new Date().toISOString(),
       (payload.meta && payload.meta.title) || "",
       (payload.meta && payload.meta.client) || "",
+      ...RESPONDENT_FIELDS.map(f => (respondent[f] || "")),
       ...QUESTION_IDS.map(id => (answers[id] && answers[id].answer) || ""),
       JSON.stringify(payload)
     ];

@@ -62,7 +62,7 @@
     </a>
   </div>
   <div class="note">
-    <strong>How answer capture works:</strong> the form posts JSON to a Google Apps Script web app, which writes each submission as a row in a Google Sheet that Monica can read directly. Deploy steps are in <strong>SETUP.md</strong> in this repository. Until the endpoint is configured, answers still autosave in the browser and can be downloaded as JSON.
+    <strong>How answer capture works:</strong> the form posts JSON to a Google Apps Script web app, which writes each submission as a row in a Google Sheet that Monica can read directly. The endpoint URL is baked into the form code (see backend/Code.gs + SETUP.md in this repository). Until the endpoint responds, answers still autosave in the browser and can be downloaded as JSON.
   </div>
 </main>
 
