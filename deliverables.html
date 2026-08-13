@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JHB Business Solutions - MVP Deliverables v1</title>
+<style>
+  :root {
+    --bg: #0f1117; --card: #1a1d27; --card2: #222634;
+    --ink: #e8eaf0; --muted: #9aa1b5;
+    --accent: #f59e0b; --accent2: #38bdf8; --good: #34d399; --warn: #f87171;
+    --line: #2c3040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.6; }
+  header { padding: 44px 20px 28px; text-align: center; background: radial-gradient(1200px 400px at 50% -10%, #2a2410 0%, var(--bg) 60%); border-bottom: 1px solid var(--line); }
+  .kicker { color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 12px; margin-bottom: 10px; }
+  h1 { font-size: clamp(24px, 4vw, 34px); }
+  header p { color: var(--muted); max-width: 680px; margin: 10px auto 0; font-size: 15px; }
+  .toc { max-width: 860px; margin: 22px auto 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .toc a { color: var(--accent2); font-size: 13px; text-decoration: none; background: var(--card); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; }
+  main { max-width: 860px; margin: 0 auto; padding: 30px 20px 80px; }
+  section { margin-bottom: 40px; }
+  .sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--line); }
+  .sec-head .num { background: var(--accent); color: #111; width: 32px; height: 32px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; }
+  .sec-head h2 { font-size: 21px; }
+  .sec-head .status { margin-left: auto; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+  .status.done { background: rgba(52,211,153,.15); color: var(--good); }
+  .status.draft { background: rgba(56,189,248,.15); color: var(--accent2); }
+  .status.blocked { background: rgba(248,113,113,.15); color: var(--warn); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 12px 0; }
+  .card h3 { color: var(--accent2); font-size: 15.5px; margin-bottom: 8px; }
+  .card p, .card li { font-size: 14.5px; color: #d5d9e3; }
+  ul, ol { padding-left: 22px; }
+  li { margin-bottom: 5px; }
+  .quote { border-left: 4px solid var(--accent); background: var(--card2); padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 12px 0; font-size: 15.5px; font-style: italic; color: var(--ink); }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; margin-right: 6px; }
+  .tag.good { background: rgba(52,211,153,.15); color: var(--good); }
+  .tag.warn { background: rgba(248,113,113,.15); color: var(--warn); }
+  .tag.info { background: rgba(56,189,248,.15); color: var(--accent2); }
+  .tag.ph { background: rgba(245,158,11,.15); color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--accent); font-size: 12.5px; text-transform: uppercase; letter-spacing: 1px; }
+  .price { color: var(--good); font-weight: 700; }
+  .callout { border-left: 4px solid var(--warn); background: var(--card); padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 14px 0; }
+  .callout p { font-size: 14px; }
+  .callout strong { color: var(--warn); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+  .open { background: var(--card2); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 12px 0; }
+  .open h4 { color: var(--accent); font-size: 14px; margin-bottom: 8px; }
+  .open ol { margin: 0; }
+  footer { text-align: center; padding: 24px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Client #1 MVP Build, 13 Aug 2026</div>
+  <h1>JHB Business Solutions &bull; Deliverables v1</h1>
+  <p>Four drafts from the meeting answers, ready for your review as copy writer. Placeholders marked clearly; nothing is final until you edit.</p>
+  <div class="toc">
+    <a href="#pos">1. Positioning</a>
+    <a href="#web">2. Website copy</a>
+    <a href="#deck">3. Pitch deck</a>
+    <a href="#mkt">4. Marketing plan</a>
+    <a href="#next">Next steps</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- 1. POSITIONING -->
+  <section id="pos">
+    <div class="sec-head"><span class="num">1</span><h2>Positioning Statement</h2><span class="status done">READY FOR REVIEW</span></div>
+    <div class="quote">"We give US, UK, CA, and AU businesses CPA-level financial leadership at offshore-friendly cost, so founders get clean books, monthly clarity, and board-ready numbers without hiring a full-time CFO."</div>
+
+    <div class="card">
+      <h3>The four lines</h3>
+      <ul>
+        <li><strong>Who:</strong> Jhun Hadji Basher, CPA. Experienced Filipino accountant, QuickBooks certified, Xero fluent, PRC-licensed in good standing.</li>
+        <li><strong>What:</strong> Fractional CFO as the <span class="tag good">FLAGSHIP</span>; bookkeeping and controller as the accessories that lead into it.</li>
+        <li><strong>For whom:</strong> US digital agencies, US real-estate investors, US startups (primary niche candidates, pending decision) + white-label capacity for AU/UK accounting firms as cashflow floor.</li>
+        <li><strong>Why us:</strong> CPA-level judgment at offshore cost, with named-person continuity: the same CPA reviews your books every month. NOT "cheap bookkeeping."</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Proof positioning</h3>
+      <ul>
+        <li>3 clients today, PHP 54k/mo revenue, 40-50% capacity used</li>
+        <li>1 LinkedIn testimonial <span class="tag ph">NEEDS 2-3 CASE STUDIES WITH NUMBERS</span></li>
+        <li>Experience: accounting firms, private equity, real estate</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Pricing (his numbers, locked)</h3>
+      <p><span class="price">Fractional CFO: from USD 3,000/mo</span> &nbsp;|&nbsp; <span class="price">Bookkeeping: from USD 1,000/mo</span></p>
+      <p style="font-size:13.5px; color:var(--muted)">Cleanup/controller/white-label tiers scoped in services page.</p>
+    </div>
+
+    <div class="card">
+      <h3>Refusal list (positioning boundary)</h3>
+      <p>Insurance, credit/lending, gambling/casino, liquor, pork industries. <strong>This is a feature:</strong> we are selective, and selectivity signals quality.</p>
+      <h3 style="margin-top:12px">Brand hierarchy</h3>
+      <p>Flagship: Fractional CFO (hero of site and deck). Accessories: Bookkeeping, Controller (entry points that upgrade into CFO).</p>
+      <h3 style="margin-top:12px">Tone</h3>
+      <p>Confident, numbers-first, plain-spoken. Named-person accountability: "the same CPA, every month."</p>
+    </div>
+  </section>
+
+  <!-- 2. WEBSITE COPY -->
+  <section id="web">
+    <div class="sec-head"><span class="num">2</span><h2>Website Copy v1 (systeme.io, 5 pages)</h2><span class="status draft">DRAFT FOR EDGE</span></div>
+
+    <div class="card">
+      <h3>Page 1: Home</h3>
+      <ul>
+        <li><strong>Headline A (CFO flagship):</strong> "Your numbers, CFO-grade. Without the full-time CFO salary."</li>
+        <li><strong>Headline B:</strong> "CPA-level financial leadership for growing US businesses."</li>
+        <li><strong>Subhead:</strong> Monthly books, cash runway, and board-ready numbers from a CPA who knows your business by name.</li>
+        <li><strong>Primary CTA:</strong> Book a Call &nbsp;|&nbsp; <strong>Secondary:</strong> See Services &amp; Pricing</li>
+        <li><strong>Trust strip:</strong> CPA (PRC-licensed) | QuickBooks Certified | Xero fluent | Named-person continuity</li>
+        <li><strong>Proof teaser:</strong> <span class="tag ph">2 case studies TBD from Hadji</span></li>
+        <li><strong>Refusal line (optional):</strong> "We work with a curated set of industries and decline the rest."</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Page 2: Services / Pricing</h3>
+      <table>
+        <tr><th>Service</th><th>Price</th><th>Includes</th></tr>
+        <tr><td><strong>Fractional CFO</strong> <span class="tag good">FLAGSHIP</span></td><td class="price">from USD 3,000/mo</td><td>Monthly close + P&amp;L + BS, cash flow forecasting, KPI dashboard, budgeting, 2 review calls/mo</td></tr>
+        <tr><td><strong>Bookkeeping</strong></td><td class="price">from USD 1,000/mo</td><td>Monthly categorization + recs, P&amp;L + BS by the 15th, standard COA per industry</td></tr>
+        <tr><td><strong>Controller</strong></td><td>TBD</td><td>AP/AR, payroll coordination, monthly close, 30-min review call</td></tr>
+        <tr><td><strong>White-label</strong></td><td>Per file, TBD</td><td>Per-client-file capacity for partner firms</td></tr>
+      </table>
+      <p style="font-size:13.5px; color:var(--muted)">Annual prepay at 10 months' price. No hourly billing. Fixed monthly USD.</p>
+    </div>
+
+    <div class="card">
+      <h3>Page 3: About</h3>
+      <p><strong>Draft:</strong> "I'm Jhun Hadji Basher, a CPA with experience across accounting firms, private equity, and real estate. I built this practice to give US, UK, CA, and AU businesses senior-level financial judgment at offshore-friendly rates. When you work with me, I'm the one reviewing your books every month: no handoffs, no mystery."</p>
+      <p style="margin-top:8px"><strong>Credentials:</strong> PRC-licensed CPA (good standing), QuickBooks Certified, Xero fluent. <span class="tag info">CFO certification in progress</span></p>
+      <p><strong>Timezone note:</strong> "Based in Manila; overlapping hours with US business day."</p>
+    </div>
+
+    <div class="card">
+      <h3>Page 4: Case Studies</h3>
+      <p>3 numbered case studies. <span class="tag ph">2 TBD from Hadji (hours saved, backlog cleared, close-time reduction)</span>. 1 slot reserved for the first new US client. Template: client profile (anonymized) → problem → what we did → the NUMBER result. Current proof: 1 LinkedIn testimonial.</p>
+    </div>
+
+    <div class="card">
+      <h3>Page 5: Book a Call</h3>
+      <p><strong>Form:</strong> name, business email, company, industry, monthly transactions, biggest number problem. <strong>Pre-call promise:</strong> "We'll show you the 12-Point Books Health Check: where your books stand and the 3 biggest risks we see. No obligation." <strong>Lead magnet:</strong> "Get the 12-Point Books Health Check" (email capture).</p>
+    </div>
+  </section>
+
+  <!-- 3. PITCH DECK -->
+  <section id="deck">
+    <div class="sec-head"><span class="num">3</span><h2>Pitch Deck v1 (two versions)</h2><span class="status draft">DRAFT FOR EDGE</span></div>
+    <p style="color:var(--muted); font-size:14px; margin-bottom:12px">Version A: prospective clients. Version B: partner firms (white-label). Per his form answer: BOTH.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Version A: Prospective clients (12 slides)</h3>
+        <ol>
+          <li><strong>Cover:</strong> "CFO-grade numbers. Without the CFO salary."</li>
+          <li><strong>The problem:</strong> books done but no cash runway, no margin by client, no pricing clarity</li>
+          <li><strong>Cost of guessing:</strong> one bad pricing/cash decision erases months of margin <span class="tag ph">NUMBER TBD</span></li>
+          <li><strong>The solution:</strong> Fractional CFO flagship; bookkeeping + controller as entry</li>
+          <li><strong>How it works:</strong> same CPA every month, reports by the 15th, fixed monthly USD</li>
+          <li><strong>Who it is for:</strong> <span class="tag ph">NICHE PLACEHOLDER</span> + refusal list as filter</li>
+          <li><strong>Proof:</strong> 1 testimonial, <span class="tag ph">2 case studies TBD</span>, 3 clients, PHP 54k/mo</li>
+          <li><strong>Credentials:</strong> PRC CPA, QuickBooks Certified, Xero fluent, PE + real estate experience</li>
+          <li><strong>Pricing:</strong> CFO from $3,000, bookkeeping from $1,000 <span class="tag warn">25% intro discount: CONFIRM</span></li>
+          <li><strong>Objections:</strong> offshore? fixed fee? US GAAP/QuickBooks?</li>
+          <li><strong>Next step:</strong> Book a Call, 12-Point Health Check</li>
+          <li><strong>Close:</strong> "CPA-level judgment, offshore cost, named-person continuity."</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Version B: Partner firms (8 slides)</h3>
+        <ol>
+          <li><strong>Cover:</strong> "Overflow capacity with CPA-level quality"</li>
+          <li><strong>Partner problem:</strong> more clients than capacity, hiring slow and expensive</li>
+          <li><strong>The offer:</strong> white-label bookkeeping/CFO per client file ($250-500/file range, confirm)</li>
+          <li><strong>Why us:</strong> CPA, certified, SLA reports by the 15th, named-person continuity, secure</li>
+          <li><strong>Relationship:</strong> your clients, your branding, our delivery under your review (independent contractor)</li>
+          <li><strong>Proof:</strong> <span class="tag ph">TBD case studies</span></li>
+          <li><strong>Pricing + terms:</strong> per-file, volume options <span class="tag ph">TBD</span></li>
+          <li><strong>Next step:</strong> partner intro call</li>
+        </ol>
+      </div>
+    </div>
+    <div class="callout"><p><strong>Confirm before using:</strong> the 25% intro discount for the first 3 months came from the 08-12 meeting notes, but it is NOT in the current brief. Edge/Hadji call.</p></div>
+  </section>
+
+  <!-- 4. MARKETING PLAN -->
+  <section id="mkt">
+    <div class="sec-head"><span class="num">4</span><h2>Marketing Plan v1</h2><span class="status draft">DRAFT FOR EDGE</span></div>
+    <p style="color:var(--muted); font-size:14px; margin-bottom:12px">Launch: <strong style="color:var(--good)">08-24 (Mon)</strong>. Capacity: 16h delivery + 4h marketing/wk. Payments: Wise + PayPal (ready).</p>
+
+    <div class="card">
+      <h3>Goals</h3>
+      <ul>
+        <li><strong>30 days:</strong> 50 partner touches, 20 LinkedIn connects/day, site live, 1-2 discovery calls</li>
+        <li><strong>90 days:</strong> 1-2 international clients (USD 3k+ MRR), 1 white-label partner</li>
+        <li><strong>365 days:</strong> USD 125k annualized trajectory <span class="tag info">confirm with Hadji</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Channel weighting (priority order)</h3>
+      <ol>
+        <li><strong>White-label / partner outbound</strong> - 50 touches/wk to US &amp; AU firms. Fastest to first USD. <span class="tag ph">30-account list TBD</span></li>
+        <li><strong>QuickBooks ProAdvisor + Xero directories</strong> - free inbound, live week 1</li>
+        <li><strong>LinkedIn</strong> - 3 posts/wk, 20 connects/day, "Books Health Check" CTA</li>
+        <li><strong>Referral engine</strong> - existing clients. Proposal: 10% fee for 6 months <span class="tag warn">PENDING APPROVAL</span></li>
+        <li><strong>Marketplaces</strong> - Upwork/OnlineJobs.ph months 1-3 only, exit deliberately</li>
+        <li><strong>Niche communities</strong> - answer questions, never pitch</li>
+        <li><strong>Cold email</strong> - 100-200/wk only after channels 1-4 produce data</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>Weekly schedule (fits his 4h/wk)</h3>
+      <table>
+        <tr><th>Day</th><th>Activity</th><th>Time</th></tr>
+        <tr><td>Mon</td><td>Partner outbound batch (10 touches)</td><td>1h</td></tr>
+        <tr><td>Tue</td><td>LinkedIn: 1 post + 20 connects</td><td>1h</td></tr>
+        <tr><td>Wed</td><td>Partner outbound batch (10 touches)</td><td>1h</td></tr>
+        <tr><td>Thu</td><td>LinkedIn: 1 post + 20 connects</td><td>1h</td></tr>
+        <tr><td>Fri</td><td>Partner outbound (10) + directory maintenance</td><td>1h</td></tr>
+        <tr><td>Sat</td><td>LinkedIn post + nurture check + referrals</td><td>1h</td></tr>
+      </table>
+      <p style="font-size:13.5px; color:var(--muted)">~7h/wk total. Option: Edge/VA runs outbound batches; Hadji keeps LinkedIn + calls. Rebalance to 4h if he wants everything on himself.</p>
+    </div>
+
+    <div class="card">
+      <h3>Funnel (systeme.io)</h3>
+      <p>Lead magnet "12-Point Books Health Check" → email capture → 5-email nurture → Book a Call → discovery → proposal → recurring. CRM = systeme.io tags; graduate past ~30 leads/mo.</p>
+    </div>
+
+    <div class="card">
+      <h3>Assets to build (by 08-21 / 08-24)</h3>
+      <ul>
+        <li><span class="tag ph">30-account prospect list</span> (needs Edge/Hadji input)</li>
+        <li>Referral-partner list + referral ask script <span class="tag warn">10% fee pending</span></li>
+        <li>Lead magnet PDF + 5-email nurture sequence</li>
+        <li>LinkedIn profile rebuild, ProAdvisor + Xero listings</li>
+        <li><span class="tag ph">2 case studies with numbers</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- NEXT STEPS -->
+  <section id="next">
+    <div class="sec-head"><span class="num">5</span><h2>What unblocks what</h2></div>
+    <div class="open">
+      <h4>Edge's 4 decisions tonight</h4>
+      <ol>
+        <li><strong>Primary niche</strong> (recommend: US digital agencies + white-label AU/UK floor) - lands site hero, deck slide 6, funnel copy</li>
+        <li><strong>ACR message to Hadji</strong> ("10% is on cash collected, not profit") - unblocks terms sheet + signature</li>
+        <li><strong>Create systeme.io account</strong> (his name, you admin) - unblocks website + CRM. The biggest unlock.</li>
+        <li><strong>2-3 name candidates</strong> - replaces "JHB Business Solutions" placeholder everywhere</li>
+      </ol>
+    </div>
+    <div class="open">
+      <h4>Needs Hadji (quick messages)</h4>
+      <ol>
+        <li>2 case-study numbers from existing clients</li>
+        <li>Confirm USD 125k annual goal</li>
+        <li>Confirm 25% intro discount yes/no</li>
+        <li>Approve 10% referral fee</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Drafts by Vay, 13 Aug 2026, from Hadji's form answers (16:54). Copy writer: Edge. Terms sheet blocked pending ACR clarification. Deadlines: website 08-21, marketing 08-24.
+</footer>
+
+</body>
+</html>
