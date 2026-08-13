@@ -215,10 +215,6 @@
           <input type="text" id="clientName" placeholder="Type full legal name">
         </div>
         <div class="sig-field">
-          <label>Business entity name</label>
-          <input type="text" id="entityName" placeholder="Type entity name">
-        </div>
-        <div class="sig-field">
           <label>Signature (draw in the box)</label>
           <canvas class="sigpad" id="clientPad"></canvas>
           <div class="sigpad-row">
@@ -319,7 +315,6 @@ async function submitSig() {
   const status = document.getElementById("status");
   const btn = document.getElementById("submitBtn");
   const clientName = document.getElementById("clientName").value.trim();
-  const entityName = document.getElementById("entityName").value.trim();
   const clientDate = document.getElementById("clientDate").value.trim();
   const edgeName = document.getElementById("edgeName").value.trim();
   const edgeDate = document.getElementById("edgeDate").value.trim();
@@ -327,7 +322,6 @@ async function submitSig() {
 
   const problems = [];
   if (!clientName) problems.push("Client full name");
-  if (!entityName) problems.push("Entity name");
   if (padEmpty("clientPad")) problems.push("Client signature");
   if (!clientDate) problems.push("Client date");
   if (!edgeName) problems.push("Edge name");
@@ -346,17 +340,16 @@ async function submitSig() {
   status.textContent = "Submitting signed agreement...";
 
   const payload = {
-    meta: { title: "NETWORK FEE AGREEMENT - SIGNED", date: "2026-08-13", client: entityName },
+    meta: { title: "NETWORK FEE AGREEMENT - SIGNED", date: "2026-08-13", client: clientName },
     submittedAt: new Date().toISOString(),
     respondent: {
       name: clientName,
-      business: entityName,
+      business: "",
       email: "",
       phone: ""
     },
     answers: {
       sig_client_name: { block: "Signature", must: true, question: "Client full legal name", answer: clientName },
-      sig_entity_name: { block: "Signature", must: true, question: "Business entity name", answer: entityName },
       sig_client_date: { block: "Signature", must: true, question: "Client date signed", answer: clientDate },
       sig_edge_name: { block: "Signature", must: true, question: "Edge full legal name", answer: edgeName },
       sig_edge_date: { block: "Signature", must: true, question: "Edge date signed", answer: edgeDate },
