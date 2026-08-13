@@ -29,12 +29,23 @@
     padding: 12px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 12px;
     flex-wrap: wrap;
   }
-  .toolbar .brand { color: #f59e0b; font-family: "Segoe UI", sans-serif; font-weight: 700; font-size: 14px; }
-  .toolbar .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .toolbar .brand {
+    position: absolute;
+    left: 20px;
+    color: #f59e0b;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .toolbar .status {
+    position: absolute;
+    right: 20px;
+  }
+  .toolbar .btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
   .btn {
     font-family: "Segoe UI", sans-serif;
     background: #f59e0b;
